@@ -1,4 +1,11 @@
 'use strict';
+const pino = require('pino');
+const pretty = pino.pretty();
+pretty.pipe(process.stdout);
+const log = pino({
+    name: 'todo',
+    safe:true
+}, pretty);
 
 const mongoose = require('mongoose');
 const Task = mongoose.model('Tasks');
@@ -6,9 +13,9 @@ const Task = mongoose.model('Tasks');
 exports.list_all_task = (req, res) => {
     Task.find({}, (err, task) => {
         if(err) {
-            console.log('aa');
             res.send(err);
         }
+            log.info('Teste');  
             res.json(task);
     });
 };
