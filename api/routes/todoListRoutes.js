@@ -5,11 +5,11 @@ module.exports = (app) => {
     const todoList = require('../controllers/todoListController');
 
     app.route('/tasks')
-        .get(todoList.list_all_task)
-        .post(todoList.create_a_task);
+        .get(todoList.listAllTasks)
+        .post(todoList.createTask);
 
     app.route('/tasks/:taskId')
-        .get(todoList.read_a_task)
-        .put(todoList.update_a_task)
-        .delete(todoList.delete_a_task);
+        .get(todoList.readTask)
+        .put(todoList.updateTask)
+        .delete(todoList.deleteTask);
 };

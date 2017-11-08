@@ -2,25 +2,21 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const pino = require('pino');
-const pretty = pino.pretty();
-pretty.pipe(process.stdout);
-const log = pino({
-    name: 'todo',
-    safe:true
-}, pretty);
-
+const config = require('./config/config');
 const Task = require('./api/models/todoListModels');
-const port = process.env.PORT || 1337;
+const routes = require('./api/routes/todoListRoutes');
+const log = require('./lib/log');
 
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://admin:admin@ds249605.mlab.com:49605/todo-api');
+const port = process.env.PORT || config.port;
 
-app.use(bodyParser.urlencoded({extended:true}));
+mongoose.connect(config.mongoUrl || process.env.mongoUrl);
 
+app.use(bodyParser.urlencoded({
+    extended:true
+}));
 app.use(bodyParser.json());
 
-const routes = require('./api/routes/todoListRoutes');
+
 routes(app);
 
 app.listen(port);
